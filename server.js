@@ -35,8 +35,19 @@ app.get('/contact', (req, res) => {
     res.render(`${__dirname}/public/main/contact`)
 });
 
-app.get('/item', (req, res) => {
-    res.render(`${__dirname}/public/main/item`)
+app.get('/item/:id', async (req, res) => {
+
+    const { id } = req.params
+
+    try{
+        const getItem = await pool.query("SELECT * FROM .... WHERE ID= $1", [id])
+        res.json(getItem.rows[0])
+        res.render(`${__dirname}/public/main/item`)
+    } catch (err) {
+        console.error(err.message)
+    }
+    
+    
 });
 
 app.get('/koszyk', (req, res) => {
