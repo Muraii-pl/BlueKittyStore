@@ -1,3 +1,5 @@
+import pass from './pass'
+
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 const express = require('express');
@@ -5,6 +7,25 @@ const app = express();
 
 const nodemailer = require("nodemailer");
 
+const mongoose = require('mongoose');
+
+//moongose
+
+mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`)
+
+const Schema = mongoose.Schema;
+
+const itemSchema = new Schema ( {
+    name: String,
+    price: String,
+    sale: String,
+    category: String,
+    available: String,
+},{
+    timestamps: {
+        currentTime: () => Math.floor(Date.now()/1000)
+    }
+});
 
 //Set Vies
 
