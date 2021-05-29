@@ -3,12 +3,13 @@
 
 
 const express = require('express');
+const url = require('url')
 const app = express();
 
 const nodemailer = require("nodemailer");
 
 const mongoose = require('mongoose');
-const pass  = require('./pass');
+const pass = require('./pass');
 
 //moongose
 
@@ -18,7 +19,7 @@ mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKit
 
 
 
-const itemSchema ={
+const itemSchema = {
     name: String,
     price: String,
     sale: String,
@@ -30,7 +31,7 @@ const itemSchema ={
 
 //Set Vies
 
-const Items = mongoose.model('items',itemSchema)
+const Items = mongoose.model('items', itemSchema)
 
 
 const PORT = process.env.PORT || 5000;
@@ -41,13 +42,20 @@ app.use(express.json());
 
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
-    Items.find({}).limit(3).then(
-    data => {
-        console.log(data)
-        res.render(`${__dirname}/public/main/index`,{'items':data})
-    }
+app.get('/', async (req, res) => {
+    let SaleItems = {}
+    let NewsItems = {}
+    await Items.find({}).limit(3).then(
+        data => {
+            SaleItems = data
+        }
     )
+    await Items.find({}).sort({time:-1}).limit(3).then(
+    data => {
+        NewsItems = data
+    }   
+    )
+    res.render(`${__dirname}/public/main/index`,{'SaleItems':SaleItems,'NewsItems':NewsItems})
 });
 
 app.get('/index', (req, res) => {
@@ -63,6 +71,13 @@ app.get('/contact', (req, res) => {
 });
 
 app.get('/item/:id', (req, res) => {
+    console.log(req.params.id)
+    Items.findById(req.params.id).then(data => {
+        console.log(data)
+    })
+
+    
+
     res.render(`${__dirname}/public/main/item`)
 });
 
@@ -101,10 +116,10 @@ app.post('/contact', (req, res) => {
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
-        if (error){
+        if (error) {
             console.log(error);
             res.send('error');
-        }else{
+        } else {
             console.log('Email sent: ' + info.response);
             res.send('success')
         }

@@ -60,7 +60,8 @@ body {
   display: flex;
   justify-content: space-evenly;
 }
-.sale__img{
+.sale__img,
+.news__img{
   width: 100%;
 }
 .news__item,
