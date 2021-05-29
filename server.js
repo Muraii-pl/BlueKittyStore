@@ -1,6 +1,6 @@
 
 
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
 
 const express = require('express');
 const app = express();
@@ -8,7 +8,7 @@ const app = express();
 const nodemailer = require("nodemailer");
 
 const mongoose = require('mongoose');
-const { pass } = require('./pass');
+const pass  = require('./pass');
 
 //moongose
 
@@ -30,7 +30,7 @@ const itemSchema ={
 
 //Set Vies
 
-
+const Items = mongoose.model('items',itemSchema)
 
 
 const PORT = process.env.PORT || 5000;
@@ -42,8 +42,12 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    res.send()
-    res.render(`${__dirname}/public/main/index`)
+    Items.find({}).limit(3).then(
+    data => {
+        console.log(data)
+        res.render(`${__dirname}/public/main/index`,{'items':data})
+    }
+    )
 });
 
 app.get('/index', (req, res) => {

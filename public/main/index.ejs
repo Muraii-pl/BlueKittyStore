@@ -50,14 +50,14 @@
         <div class="sale">
             <p class="sale__text">Promocje</p>
                 <div class="sale__list">
-                    <div class="sale__item"></div>
-                    <div class="sale__item"></div>
-                    <div class="sale__item"></div>
+                    <% items.forEach(item => { %>
+                        <a href=/item/<%= item.id %>}`><div class="sale__item"><img class="sale__img" src='../media/<%= (item.name).split(" ").join("") %>.png'/></div></a>
+                    <% }) %>
                 </div>
         </div>
     </main>
 
-
+    
 
 
     <script src="../../script/index.js"></script>
