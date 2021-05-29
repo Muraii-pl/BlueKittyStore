@@ -1,4 +1,4 @@
-import pass from './pass'
+
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
@@ -8,24 +8,25 @@ const app = express();
 const nodemailer = require("nodemailer");
 
 const mongoose = require('mongoose');
+const { pass } = require('./pass');
 
 //moongose
 
-mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`)
+mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
+    useNewUrlParser: true, useUnifiedTopology: true
+})
 
-const Schema = mongoose.Schema;
 
-const itemSchema = new Schema ( {
+
+const itemSchema ={
     name: String,
     price: String,
     sale: String,
     category: String,
     available: String,
-},{
-    timestamps: {
-        currentTime: () => Math.floor(Date.now()/1000)
-    }
-});
+    time: Date,
+}
+
 
 //Set Vies
 
@@ -41,6 +42,7 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
+    res.send()
     res.render(`${__dirname}/public/main/index`)
 });
 
@@ -56,7 +58,7 @@ app.get('/contact', (req, res) => {
     res.render(`${__dirname}/public/main/contact`)
 });
 
-app.get('/item', (req, res) => {
+app.get('/item/:id', (req, res) => {
     res.render(`${__dirname}/public/main/item`)
 });
 
