@@ -7,6 +7,7 @@
       list-style: none;
       outline: none;
       border: none;
+      
 }
 @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 @import "./varible";
@@ -16,6 +17,7 @@ body {
       background-repeat: no-repeat;
       background-attachment: fixed;
       font-family: "Lobster", cursive;
+      overflow-x: hidden
 }
 
 .title_bar {
@@ -59,8 +61,9 @@ body {
             width: 80px;
             height: 80px;
             border: 2px rgba(0, 0, 0, 0.25) solid;
-            background-image: url("/media/kitty.png");
-            background-repeat: no-repeat;
+      }
+      &__img{
+            width: 100%;
       }
 }
 

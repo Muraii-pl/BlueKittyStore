@@ -21,19 +21,19 @@
         </button>
         <nav class="nav">
             <div class="nav__list">
-                <a href="index" class="nav__link">
+                <a href="/index" class="nav__link">
                     <div class="nav__box">Home</div>
                 </a>
-                <a href="store" class="nav__link">
+                <a href="/store" class="nav__link">
                     <div class="nav__box">Store</div>
                 </a>
-                <a href="about" class="nav__link">
+                <a href="/about" class="nav__link">
                     <div class="nav__box">About Us</div>
                 </a>
-                <a href="koszyk" class="nav__link">
+                <a href="/koszyk" class="nav__link">
                     <div class="nav__box">Koszyk</div>
                 </a>
-                <a href="contact" class="nav__link">
+                <a href="/contact" class="nav__link">
                     <div class="nav__box">Kontakt</div>
                 </a>
             </div>
@@ -41,22 +41,24 @@
         <p class="title_bar">Blue Kitty Store</p>
     </div>
     <main class="main item">
-        <h4 class="item__name">Nazwa Przedmiotu</h4>
+        <% if (Items) { %>
+          
+        <h4 class="item__name"><%= Items.name %></h4>
         <div class="item__left-side">
             <section class="item__images">
                 <div class="item__images--big">
-                    <img src="" alt="" class="item__img item__img--big">
+                    <img src='../media/<%=(Items.name).split(" ").join("") %>.png' alt="" class="item__img item__img--big">
                 </div>
                 <ul class="item__list">
-                    <li class="item__images--small"><img src="" alt="" class="item__img item__img--small"></li>
-                    <li class="item__images--small"><img src="" alt="" class="item__img item__img--small"></li>
-                    <li class="item__images--small"><img src="" alt="" class="item__img item__img--small"></li>
+                    <li class="item__images--small"><img src='../media/<%=(Items.name).split(" ").join("")%>_2.png' alt="" class="item__img item__img--small"></li>
+                    <li class="item__images--small"><img src='../media/<%=(Items.name).split(" ").join("")%>_3.png' alt="" class="item__img item__img--small"></li>
+                    <li class="item__images--small"><img src='../media/<%=(Items.name).split(" ").join("")%>_4.png' alt="" class="item__img item__img--small"></li>
                 </ul>
             </section>
         </div>
         <div class="item__right-side">
             <section class="item__values">
-                <h3 class="item__price">Cena: xx zł</h3>
+                <h3 class="item__price"><%= (parseFloat(Items.price) + parseFloat(Items.sale)).toFixed(2) %> zł</h3>
                 <div class="item__quantity">
                     <span class="item__arrow item__arrow--up ">^</span>
                     <div class="item__amount">1</div>
@@ -73,7 +75,7 @@
                 </div>
             </section>
         </div>
-
+        <% } %>
 
 
 

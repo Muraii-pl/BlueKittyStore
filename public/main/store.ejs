@@ -40,53 +40,22 @@
 </div>
     <main class="main store">
         <header class="store__header">
-            <a href="../main/koszyk.html"><button class="store__button">Koszyk</button></a><input type="text" class="store__input" placeholder="Search">
+            <a href="koszyk"><button class="store__button">Koszyk</button></a><input type="text" class="store__input" placeholder="Search">
         </header>
         <div class="store_products products">
             <ul class="products__list">
+                <% Items.forEach(item => { %>
+                <a class="products__link" href="/item/<%=item.id %>">    
                 <li class="products__item">
                     <figure class="products__frame">
-                        <img src="" alt="" class="products__img">
-                        <figcaption class="products__figcaption">Nazwa Produktu 1</figcaption>
+                        <img src='../media/<%=(item.name).split(" ").join("") %>.png' alt="" class="products__img">
+                        <figcaption class="products__figcaption"><%=item.name %></figcaption>
                     </figure>
                 </li>
-                <li class="products__item">
-                    <figure class="products__frame">
-                        <img src="" alt="" class="products__img">
-                        <figcaption class="products__figcaption">Nazwa Produktu 2</figcaption>
-                    </figure>
-                </li>
-                <li class="products__item">
-                    <figure class="products__frame">
-                        <img src="" alt="" class="products__img">
-                        <figcaption class="products__figcaption">Nazwa Produktu 3</figcaption>
-                    </figure>
-                </li>
-                <li class="products__item">
-                    <figure class="products__frame">
-                        <img src="" alt="" class="products__img">
-                        <figcaption class="products__figcaption">Nazwa Produktu 4</figcaption>
-                    </figure>
-                </li>
-                <li class="products__item">
-                    <figure class="products__frame">
-                        <img src="" alt="" class="products__img">
-                        <figcaption class="products__figcaption">Nazwa Produktu 5</figcaption>
-                    </figure>
-                </li>
-                <li class="products__item">
-                    <figure class="products__frame">
-                        <img src="" alt="" class="products__img">
-                        <figcaption class="products__figcaption">Nazwa Produktu 6</figcaption>
-                    </figure>
-                </li>
-                <li class="products__item">
-                    <figure class="products__frame">
-                        <img src="" alt="" class="products__img">
-                        <figcaption class="products__figcaption">Nazwa Produktu 6</figcaption>
-                    </figure>
-                </li>
+                </a>
+                <% }) %>
             </ul>
+          
         </div>
 
     </main>

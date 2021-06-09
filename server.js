@@ -1,47 +1,57 @@
-import pass from './pass'
-
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
-
-const express = require('express');
+import express from 'express';
+import url from 'url'
 const app = express();
 
-const nodemailer = require("nodemailer");
-
-const mongoose = require('mongoose');
+import nodemailer from "nodemailer";
+import { dirname } from 'path'
+import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import pass from'./pass.js';
 
 //moongose
 
-mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`)
-
-const Schema = mongoose.Schema;
-
-const itemSchema = new Schema ( {
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const itemSchema = {
     name: String,
     price: String,
     sale: String,
     category: String,
     available: String,
-},{
-    timestamps: {
-        currentTime: () => Math.floor(Date.now()/1000)
-    }
-});
+    time: Date,
+}
+
 
 //Set Vies
 
-
+const Items = mongoose.model('items', itemSchema)
 
 
 const PORT = process.env.PORT || 5000;
 
 app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/media'));
+app.use(express.static(__dirname +'/media'));
 app.use(express.json());
 
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
-    res.render(`${__dirname}/public/main/index`)
+app.get('/', async (req, res) => {
+    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
+    useNewUrlParser: true, useUnifiedTopology: true
+})
+
+    let SaleItems = {}
+    let NewsItems = {}
+    await Items.find({}).limit(3).then(
+        data => {
+            SaleItems = data
+        }
+    )
+    await Items.find({}).sort({time:-1}).limit(3).then(
+    data => {
+        NewsItems = data
+    }   
+    )
+    res.render(`${__dirname}/public/main/index`,{'SaleItems':SaleItems,'NewsItems':NewsItems})
 });
 
 app.get('/index', (req, res) => {
@@ -57,18 +67,20 @@ app.get('/contact', (req, res) => {
 });
 
 app.get('/item/:id', async (req, res) => {
+    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
+    useNewUrlParser: true, useUnifiedTopology: true
+})
 
-    const { id } = req.params
+    let getItem
+    console.log(req.params.id)
+    await Items.findById(req.params.id).then(data => {
+       getItem = data
+    })
 
-    try{
-        const getItem = await pool.query("SELECT * FROM .... WHERE ID= $1", [id])
-        res.json(getItem.rows[0])
-        res.render(`${__dirname}/public/main/item`)
-    } catch (err) {
-        console.error(err.message)
-    }
-    
-    
+    mongoose.connection.close()
+    res.render(`${__dirname}/public/main/item`,{'Items':getItem})
+
+   
 });
 
 app.get('/koszyk', (req, res) => {
@@ -79,8 +91,17 @@ app.get('/podsumowanie', (req, res) => {
     res.render(`${__dirname}/public/main/podsumowanie`)
 });
 
-app.get('/store', (req, res) => {
-    res.render(`${__dirname}/public/main/store`)
+app.get('/store', async (req, res) => {
+
+    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
+        useNewUrlParser: true, useUnifiedTopology: true})
+    let GetItems = {}
+    await Items.find({}).then(
+        data => {
+            GetItems = data
+        }
+    )
+    res.render(`${__dirname}/public/main/store`,{'Items':GetItems})
 });
 
 app.get('/zamowienie', (req, res) => {
@@ -106,10 +127,10 @@ app.post('/contact', (req, res) => {
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
-        if (error){
+        if (error) {
             console.log(error);
             res.send('error');
-        }else{
+        } else {
             console.log('Email sent: ' + info.response);
             res.send('success')
         }

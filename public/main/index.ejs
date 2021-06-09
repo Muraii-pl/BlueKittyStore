@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="PL">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +11,7 @@
 
     <link rel="stylesheet" href="../../css/main.css">
 </head>
+
 <body>
     <div class="top_wraper">
         <button class="hamburger">
@@ -34,26 +36,29 @@
                 <a href="contact" class="nav__link">
                     <div class="nav__box">Kontakt</div>
                 </a>
-            </div>  
-    </nav>
-    <p class="title_bar">Blue Kitty Store</p>
-   </div>
+            </div>
+        </nav>
+        <p class="title_bar">Blue Kitty Store</p>
+    </div>
     <main class="main">
         <div class="news">
             <p class="news__text">Nowości</p>
             <div class="news__list">
-                <div class="news__item"></div>
-                <div class="news__item"></div>
-                <div class="news__item"></div>
-            </div>
+                <% NewsItems.forEach(item => { %>
+               <a href="/item/<%=item.id %>" ><div class="news__item"><img class=news__img
+                src='../media/<%=(item.name).split(" ").join("") %>.png'/></div></a>
+                    <% }) %>
+
+        </div>
         </div>
         <div class="sale">
             <p class="sale__text">Promocje</p>
-                <div class="sale__list">
-                    <div class="sale__item"></div>
-                    <div class="sale__item"></div>
-                    <div class="sale__item"></div>
-                </div>
+            <div class="sale__list">
+                <% SaleItems.forEach(item=> { %>
+                    <a href="/item/<%=item.id %>"><div class="sale__item"><img class="sale__img"
+                                src='../media/<%= (item.name).split(" ").join("") %>.png' /></div></a>
+                    <% }) %>
+            </div>
         </div>
     </main>
 
@@ -62,4 +67,5 @@
 
     <script src="../../script/index.js"></script>
 </body>
+
 </html>
