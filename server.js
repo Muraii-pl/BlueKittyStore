@@ -18,6 +18,7 @@ const itemSchema = {
     category: String,
     available: String,
     time: Date,
+    opis: String
 }
 
 
@@ -34,8 +35,9 @@ app.use(express.json());
 
 app.set('view engine', 'ejs');
 
+// Home page route
 app.get('/', async (req, res) => {
-    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
+    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.0edds.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
     useNewUrlParser: true, useUnifiedTopology: true
 })
 
@@ -53,21 +55,21 @@ app.get('/', async (req, res) => {
     )
     res.render(`${__dirname}/public/main/index`,{'SaleItems':SaleItems,'NewsItems':NewsItems})
 });
-
+// Home page route
 app.get('/index', (req, res) => {
     res.render(`${__dirname}/public/main/index`)
 });
-
+// About page route
 app.get('/about', (req, res) => {
     res.render(`${__dirname}/public/main/about`)
 });
-
+// Contact page route
 app.get('/contact', (req, res) => {
     res.render(`${__dirname}/public/main/contact`)
 });
-
+// Item page route
 app.get('/item/:id', async (req, res) => {
-    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
+    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.0edds.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
     useNewUrlParser: true, useUnifiedTopology: true
 })
 
@@ -82,18 +84,18 @@ app.get('/item/:id', async (req, res) => {
 
    
 });
-
+// Koszyk page route
 app.get('/koszyk', (req, res) => {
     res.render(`${__dirname}/public/main/koszyk`)
 });
-
+// Podsumowanie page route
 app.get('/podsumowanie', (req, res) => {
     res.render(`${__dirname}/public/main/podsumowanie`)
 });
-
+// Store page route
 app.get('/store', async (req, res) => {
 
-    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.p3ngy.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
+    mongoose.connect(`mongodb+srv://admin:${pass}@cluster0.0edds.mongodb.net/BlueKittyStore?retryWrites=true&w=majority`, {
         useNewUrlParser: true, useUnifiedTopology: true})
     let GetItems = {}
     await Items.find({}).then(
@@ -103,13 +105,13 @@ app.get('/store', async (req, res) => {
     )
     res.render(`${__dirname}/public/main/store`,{'Items':GetItems})
 });
-
+// Zamownienie page route
 app.get('/zamowienie', (req, res) => {
     res.render(`${__dirname}/public/main/zamowienie`)
 });
+// Send email from page contact
 
 app.post('/contact', (req, res) => {
-
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',

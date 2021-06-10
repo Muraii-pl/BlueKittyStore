@@ -69,9 +69,11 @@
             <section class="item__desc">
                 <h3 class="item__header">Opis</h3>
                 <div class="item__text">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit, molestiae itaque nesciunt numquam
-                    officia tempora deserunt temporibus hic quo magnam nihil illum maiores possimus natus eum architecto
-                    deleniti nostrum dicta.
+                    <% if(Items.opis) {%> 
+                    <%= Items.opis %>
+                    <%} else { %>   
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem quod beatae id, amet laborum, atque delectus eius reiciendis reprehenderit illum facilis eligendi aliquid! Perspiciatis, voluptates? Provident perferendis cumque non unde.
+                    <%} %>
                 </div>
             </section>
         </div>
